@@ -18,9 +18,9 @@ public class Main {
         countTueWedThur(entries);
         weekendList(entries);
         weekdaySet(entries);
-      //  printDurationGreaterThan10(entries);
-      //  findMaxDuration(entries);
-      //  listGreaterThan50(entries);
+        printDurationGreaterThan10(entries);
+        findMaxDuration(entries);
+        listGreaterThan50(entries);
     }
 
 
@@ -68,8 +68,8 @@ public class Main {
                 count++;
             }
         }
-            System.out.println("Number of entries on Tuesday, Wednesday or Thursday: " + count);
-            System.out.println("Stream, filter, count: ");
+        System.out.println("Number of entries on Tuesday, Wednesday or Thursday: " + count);
+        System.out.println("Stream, filter, count: ");
 
         long count1 = 0;
         // write stream
@@ -82,13 +82,14 @@ public class Main {
 
     }
 
+
     public static void weekendList(List<Entry> entries) {
         //Create a list of weekend (Saturday and Sunday) entries
         System.out.println("For Loop:");
         List<Entry> weekends = new ArrayList<>();
         // write for loop
         for (Entry entry : entries) {
-            if (entry.getDay() == SATURDAY || entry.getDay() == Day.SUNDAY) {
+            if (entry.getDay() != Day.SATURDAY || entry.getDay() != Day.SUNDAY) {
                 weekends.add(entry);
             }
         }
@@ -103,8 +104,10 @@ public class Main {
         System.out.println();
     }
 
+
     public static void weekdaySet(List<Entry> entries) {
         //Create a SET of weekday entries
+
         System.out.println("For Loop:");
         Set<String> weekdays = new HashSet<>();
         // write for loop
@@ -114,53 +117,75 @@ public class Main {
             }
         }
 
-            System.out.println(weekdays);
-            System.out.println("Stream, filter, map, collect:");
-            weekdays = entries.stream()
-                    .filter(entry -> entry.getDay() != Day.SUNDAY && entry.getDay() != Day.TUESDAY)
-                    .map(entry -> entry.getDay().toString()).collect(Collectors.toSet());
-            System.out.println(weekdays);
-            System.out.println();
+        System.out.println(weekdays);
+        System.out.println("Stream, filter, map, collect:");
+        weekdays = entries.stream()
+                .filter(entry -> entry.getDay() != Day.SATURDAY || entry.getDay() != Day.SUNDAY)
+                .map(entry -> entry.getDay().toString()).collect(Collectors.toSet());
+        System.out.println(weekdays);
+        System.out.println();
+    }
+
+    public static void printDurationGreaterThan10(List<Entry> entries) {
+        System.out.println("printDurationGreaterThan10");
+        System.out.println("For Loop:");
+        // write for loop
+        for (Entry entry : entries) {
+            if (entry.getDuration() > 10) {
+                System.out.println(entry);
+            }
         }
+        System.out.println("Stream, filter, forEach:");
+        // write stream
+        entries.stream()
+                .filter(entry -> entry.getDuration() > 10)
+                .forEach(System.out::println);
+        System.out.println();
     }
 
 
+    public static void findMaxDuration(List<Entry> entries) {
+        System.out.println("For Loop:");
+        int temp = 0;
+        // write for loop
+        for (Entry entry : entries) {
+            if (entry.getDuration() > temp) {
+                temp = entry.getDuration();
+            }
+        }
 
-//    public static void findMaxDuration(List<Entry> entries) {
-//        System.out.println("For Loop:");
-//        int temp = 0;
-//        // write for loop
-//        for (Entry entry : entries) {
-//               if(entry.getDuration() > temp){
-//                   temp = entry.getDuration;
-//            temp++;
-//        }
-//    }
-//
-//}
-//        System.out.println("The Max Duration is: " + temp);
-//        System.out.println("Stream, mapToInt, max, getAsInt:");
-//        temp = entries.stream()
-//            .f
-//        System.out.println("The Max Duration is: " + temp);
-//        System.out.println();
-//    }
-//
-//    public static void listGreaterThan50(List<Entry> entries){
-//        System.out.println("For Loop:");
-//        List<Entry> greaterThan50 = new ArrayList<>();
-//        // write for looop
-//        for(Entry entry: entries){
-//            if (entry.getDuration() >50){
-//                greaterThan50.add(entry);
-//            }
-//        }
-//
-//        System.out.println(greaterThan50);
-//        System.out.println("Stream, filter, collect:");
-//        entries.stream()
-//                .filter(entries -> entries.)
-//        System.out.println(greaterThan50);
-//        System.out.println();
-//    }
-//}
+
+        System.out.println("The Max Duration is: " + temp);
+        System.out.println("Stream, mapToInt, max, getAsInt:");
+        temp = entries.stream()
+                .mapToInt(Entry::getDuration)
+                .max().getAsInt();
+        System.out.println("The Max Duration is: " + temp);
+        System.out.println();
+    }
+
+    public static void listGreaterThan50(List<Entry> entries) {
+        System.out.println("For Loop:");
+        List<Entry> greaterThan50 = new ArrayList<>();
+        // write for loop
+        for (Entry entry : entries) {
+            if (entry.getDuration() > 50) {
+                greaterThan50.add(entry);
+            }
+        }
+
+        System.out.println(greaterThan50);
+        System.out.println("Stream, filter, collect:");
+        // write stream
+        greaterThan50 = entries
+                .stream()
+                .filter(entry -> entry.getDuration() > 50)
+                .collect(Collectors.toList());
+        System.out.println(greaterThan50);
+        System.out.println();
+    }
+
+}
+
+
+
